@@ -1,0 +1,59 @@
+/* ===== Выбор роли, переключатель, компактное «Обо мне» ===== */
+@property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+
+.blob.b3 { width: 380px; height: 380px; background: #fff; top: 38%; left: 55%; animation: float1 26s ease-in-out infinite alternate-reverse; }
+
+/* бегущий световой контур вокруг карточки */
+.card::before {
+  content: ""; position: absolute; inset: -1.5px; border-radius: 45.5px; padding: 1.5px; pointer-events: none;
+  background: conic-gradient(from var(--a), transparent 0 72%, rgba(17,17,17,.55) 88%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: spin 7s linear infinite;
+}
+@keyframes spin { to { --a: 360deg; } }
+
+/* логотип мягко «дышит» */
+.logo { animation: up .9s var(--ease) both, breathe 5s ease-in-out 1.5s infinite; }
+@keyframes breathe { 50% { box-shadow: 0 0 0 1px rgba(0,0,0,.05), 0 26px 50px -12px rgba(0,0,0,.32), 0 4px 10px rgba(0,0,0,.05); } }
+
+/* экран выбора */
+.gate { display: none; }
+body:not([data-role]) .gate { display: block; }
+.gate-q { text-align: center; font-size: 15px; font-weight: 600; color: var(--muted); margin-bottom: 14px; }
+.picks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pick {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 38px;
+  padding: 18px; border-radius: 28px; background: var(--soft); text-align: left;
+  transition: transform .5s var(--spring), background .35s, color .35s, box-shadow .35s;
+}
+.pick:hover { transform: translateY(-5px); background: #111; color: #fff; box-shadow: 0 20px 36px -14px rgba(0,0,0,.45); }
+.pick:active { transform: scale(.97); }
+.pick .pi { width: 46px; height: 46px; border-radius: 15px; background: #fff; color: #111; display: grid; place-items: center; transition: transform .5s var(--spring); }
+.pick .pi svg { width: 22px; height: 22px; }
+.pick:hover .pi { transform: rotate(-8deg) scale(1.08); }
+.pick b { display: block; font-size: 18px; letter-spacing: -.02em; }
+.pick small { display: block; margin-top: 3px; font-size: 12.5px; color: var(--muted); transition: color .35s; }
+.pick:hover small { color: #b5b5b0; }
+
+/* переключатель */
+.switch { display: none; position: relative; grid-template-columns: 1fr 1fr; padding: 4px; margin-bottom: 14px; border-radius: 999px; background: var(--soft); }
+body[data-role] .switch { display: grid; animation: up .7s var(--ease) both; }
+.switch .pill { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: #111; transition: transform .55s var(--spring); }
+body[data-role="editor"] .switch .pill { transform: translateX(100%); }
+.switch button { position: relative; z-index: 1; padding: 11px 0; font-size: 14px; font-weight: 600; color: var(--muted); transition: color .3s; }
+.switch button.on { color: #fff; }
+
+/* вкладки */
+.pane { display: none; }
+.pane.on { display: block; }
+
+/* «Обо мне» компактно */
+.panel h2 { margin-bottom: 4px; }
+.facts { display: flex; align-items: center; gap: 12px; margin: 18px 0 16px; text-align: left; }
+.since { flex: none; padding: 14px 18px; border-radius: 22px; background: #111; color: #fff; font-size: 30px; font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+.since small { display: block; margin-top: 7px; font-size: 10.5px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { padding: 7px 12px; border-radius: 999px; background: var(--soft); font-size: 13px; font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) { .card::before, .logo { animation: none; } }
