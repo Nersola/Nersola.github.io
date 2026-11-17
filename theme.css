@@ -1,0 +1,82 @@
+/* ===== Темы: светлая / тёмная (стекло + зерно) ===== */
+:root { color-scheme: light; --card: rgba(255,255,255,.8); --on-ink: #fff; --ico: #fff; --hover: #fff; --stroke: rgba(0,0,0,.05); }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #141416; --card: rgba(255,255,255,.055); --ink: #f2f2ef; --muted: #9a9a97; --soft: rgba(255,255,255,.06);
+  --on-ink: #111; --ico: rgba(255,255,255,.09); --hover: rgba(255,255,255,.12); --stroke: rgba(255,255,255,.1);
+}
+
+/* фон + зерно */
+html[data-theme="dark"] body { background: radial-gradient(120% 80% at 50% 0%, #38383e 0%, #1b1b1e 55%, #0d0d0f 100%) fixed; }
+.bg::after {
+  content: ""; position: absolute; inset: 0; opacity: .05; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html[data-theme="dark"] .bg::after { opacity: .09; mix-blend-mode: overlay; }
+html[data-theme="dark"] .b1 { background: #55555e; opacity: .3; }
+html[data-theme="dark"] .b2 { background: #2c2c33; opacity: .6; }
+html[data-theme="dark"] .b3 { background: #6a6a78; opacity: .18; }
+
+/* карточка-стекло */
+.card { backdrop-filter: blur(30px) saturate(140%); -webkit-backdrop-filter: blur(30px) saturate(140%); }
+html[data-theme="dark"] .card { border: 1px solid var(--stroke); box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 40px 90px -30px rgba(0,0,0,.85); }
+html[data-theme="dark"] .card::before { background: conic-gradient(from var(--a), transparent 0 72%, rgba(255,255,255,.55) 88%, transparent 100%); }
+
+/* типографика */
+h1 { font-size: 38px; letter-spacing: -.04em; }
+html[data-theme="dark"] h1 { background: linear-gradient(180deg, #fff 30%, #9d9da3); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.role span { font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase; }
+.gate-q { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; }
+
+/* логотип */
+html[data-theme="dark"] .logo, html[data-theme="dark"] .mini-logo { background: var(--soft); box-shadow: 0 0 0 1px var(--stroke), 0 18px 40px -12px rgba(0,0,0,.6); }
+html[data-theme="dark"] .logo img, html[data-theme="dark"] .mini-logo img, html[data-theme="dark"] .frame .demo img { filter: invert(1); }
+
+/* кнопки */
+.ico { background: var(--ico); }
+.go { color: var(--on-ink); }
+.link:hover { background: var(--hover); }
+html[data-theme="dark"] .link { box-shadow: 0 0 0 1px var(--stroke) inset; }
+html[data-theme="dark"] .link::before { background: radial-gradient(240px circle at var(--mx) var(--my), rgba(255,255,255,.14), transparent 70%); }
+html[data-theme="dark"] .link:hover { box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset, 0 24px 40px -18px rgba(0,0,0,.7); }
+html[data-theme="dark"] .ico { box-shadow: none; }
+/* главная кнопка: в тёмной теме белая «таблетка» */
+html[data-theme="dark"] .link.primary { background: #f2f2ef; color: #111; box-shadow: none; }
+html[data-theme="dark"] .link.primary:hover { background: #fff; box-shadow: 0 20px 44px -14px rgba(255,255,255,.28); }
+html[data-theme="dark"] .link.primary::before { background: radial-gradient(260px circle at var(--mx) var(--my), rgba(0,0,0,.07), transparent 70%); }
+html[data-theme="dark"] .link.primary .ico { background: rgba(0,0,0,.08); color: #111; }
+html[data-theme="dark"] .link.primary .txt small { color: rgba(0,0,0,.55); }
+html[data-theme="dark"] .link.primary .go { background: #111; color: #fff; }
+
+/* выбор роли и переключатель */
+html[data-theme="dark"] .pick { box-shadow: 0 0 0 1px var(--stroke) inset; }
+html[data-theme="dark"] .pick:hover { background: #f2f2ef; color: #111; }
+html[data-theme="dark"] .pick:hover small { color: #666; }
+html[data-theme="dark"] .pick .pi { background: var(--ico); color: var(--ink); }
+html[data-theme="dark"] .pick:hover .pi { background: #111; color: #fff; }
+.switch .pill { background: var(--ink); }
+.switch button.on { color: var(--on-ink); }
+html[data-theme="dark"] .switch { box-shadow: 0 0 0 1px var(--stroke) inset; }
+
+/* кнопка смены темы */
+.theme-btn { position: absolute; top: 16px; right: 16px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; transition: transform .5s var(--spring), background .3s; }
+.theme-btn:hover { transform: rotate(25deg) scale(1.08); background: var(--hover); }
+.theme-btn:active { transform: scale(.9); }
+.theme-btn svg { width: 19px; height: 19px; grid-area: 1 / 1; transition: transform .6s var(--spring), opacity .35s; }
+.theme-btn .sun { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html[data-theme="dark"] .theme-btn .sun { opacity: 1; transform: none; }
+html[data-theme="dark"] .theme-btn .moon { opacity: 0; transform: rotate(90deg) scale(.4); }
+
+/* «Обо мне», окна, галерея */
+html[data-theme="dark"] .panel { background: rgba(32,32,36,.82); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid var(--stroke); box-shadow: 0 40px 100px -20px rgba(0,0,0,.8); }
+html[data-theme="dark"] .panel p { color: #cfcfcb; }
+.btn-dark { color: var(--on-ink); }
+html[data-theme="dark"] .x:hover { background: rgba(255,255,255,.16); }
+html[data-theme="dark"] .since { background: #f2f2ef; color: #111; }
+html[data-theme="dark"] .chan a:hover { background: var(--hover); box-shadow: 0 0 0 1px rgba(255,255,255,.16); }
+html[data-theme="dark"] .gallery { background: rgba(16,16,18,.88); }
+html[data-theme="dark"] .work { background: var(--soft); box-shadow: 0 0 0 1px var(--stroke) inset; }
+html[data-theme="dark"] .chip { background: var(--soft); box-shadow: 0 0 0 1px var(--stroke) inset; }
+.chip.on { color: var(--on-ink); }
+html[data-theme="dark"] .v-info .more { color: #111; }
+html[data-theme="dark"] .frame .demo { color: #bbb; }
